@@ -4,10 +4,7 @@ $(document).ready(function () {
 
   // Get element by id
   var city = $("#search-input").val();
-  var history = $("#history")
-
-
-
+  
   // Function to fetch weather data and update UI
   function fetchWeather(city) {
     var apiUrl =
@@ -28,11 +25,11 @@ $(document).ready(function () {
       var iconCode = currentWeather.weather[0].icon;
       var iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
 
-      $("#current-weather").html(`
+      $("#today").html(`
           <h2>${currentCity} (${currentDate}) <img src="${iconUrl}" alt="Weather icon"></h2>
           <p>Temperature: ${currentTemp}°C</p>
+          <p>Wind: ${currentWindSpeed}KPH</p>
           <p>Humidity: ${currentHumidity}%</p>
-          <p>Wind Speed: ${currentWindSpeed} m/s</p>
         `);
 
       // Update forecast UI
