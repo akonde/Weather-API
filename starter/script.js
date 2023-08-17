@@ -1,11 +1,13 @@
-var city = $("#search-input").val();
-console.log("city name: ", city);
-
 $(document).ready(function () {
   var apiKey = "9e744c7880dfffd38fa92dad98c4424b";
   var searchHistory = [];
 
-  // console.log("city-------", city);
+  // Get element by id
+  var city = $("#search-input").val();
+  var history = $("#history")
+
+
+
   // Function to fetch weather data and update UI
   function fetchWeather(city) {
     var apiUrl =
@@ -63,7 +65,7 @@ $(document).ready(function () {
     searchHistory.push(city);
     $("#search-history").empty();
     searchHistory.forEach(function (item) {
-      $("#search-history").append(`<div class="search-item">${item}</div>`);
+      $("#search-history").append(`<button class="search-item">${item}</button>`);
     });
   }
 
@@ -84,4 +86,6 @@ $(document).ready(function () {
     var city = $(this).text();
     fetchWeather(city);
   });
+
+  console.log("city name: ", city);
 });
