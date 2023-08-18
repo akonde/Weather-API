@@ -2,9 +2,6 @@ $(document).ready(function () {
   var apiKey = "9e744c7880dfffd38fa92dad98c4424b";
   var searchHistory = [];
 
-  // Get element by id
-  var city = $("#search-input").val();
-  
   // Function to fetch weather data and update UI
   function fetchWeather(city) {
     var apiUrl =
@@ -12,10 +9,10 @@ $(document).ready(function () {
       city +
       "&units=metric&appid=" +
       apiKey;
-
+    
+      $("forecast").append("<button>check it</button>")
     $.getJSON(apiUrl, function (data) {
       // Update current weather UI
-      console.log("api info =======", data);
       var currentWeather = data.list[0];
       var currentCity = data.city.name;
       var currentDate = new Date(currentWeather.dt * 1000).toLocaleDateString();
@@ -26,10 +23,12 @@ $(document).ready(function () {
       var iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
 
       $("#today").html(`
+      <div class="today-header">
           <h2>${currentCity} (${currentDate}) <img src="${iconUrl}" alt="Weather icon"></h2>
           <p>Temperature: ${currentTemp}°C</p>
           <p>Wind: ${currentWindSpeed}KPH</p>
           <p>Humidity: ${currentHumidity}%</p>
+        </div>  
         `);
 
       // Update forecast UI
@@ -43,7 +42,6 @@ $(document).ready(function () {
         var forecastIconCode = item.weather[0].icon;
         var forecastIconUrl =
           "https://openweathermap.org/img/w/" + forecastIconCode + ".png";
-
         $("#forecast").append(`
             <div class="forecast-item">
               <h5> ${forecastDate}</h5>
@@ -62,7 +60,9 @@ $(document).ready(function () {
     searchHistory.push(city);
     $("#search-history").empty();
     searchHistory.forEach(function (item) {
-      $("#search-history").append(`<button class="search-item">${item}</button>`);
+      $("#search-history").append(
+        `<button class="search-item custom-btn">${item}</button>`
+      );
     });
   }
 
@@ -74,8 +74,8 @@ $(document).ready(function () {
     if (city) {
       fetchWeather(city);
       updateSearchHistory(city);
-      $("#city-input").val(""); // Clear input
     }
+    $("#search-input").val(""); 
   });
 
   // Event delegation for search history clicks
@@ -83,6 +83,4 @@ $(document).ready(function () {
     var city = $(this).text();
     fetchWeather(city);
   });
-
-  console.log("city name: ", city);
 });
