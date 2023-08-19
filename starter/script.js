@@ -9,8 +9,8 @@ $(document).ready(function () {
       city +
       "&units=metric&appid=" +
       apiKey;
-    
-      $("forecast").append("<button></button>")
+
+    $("forecast").append("<button></button>");
     $.getJSON(apiUrl, function (data) {
       // Update current weather UI
       var currentWeather = data.list[0];
@@ -33,9 +33,9 @@ $(document).ready(function () {
 
       // Update forecast UI
       var forecast = data.list.slice(1, 6);
-      console.log(data.list.slice(1, 6));
       $("#forecast").empty();
-      forecast.forEach(function (item) {
+      for (let i = 0; i < 35; i += 7) {
+        const item = data.list[i];
         var forecastDate = new Date(item.dt * 1000).toLocaleDateString();
         var forecastTemp = item.main.temp;
         var forcastWind = item.wind.speed;
@@ -52,7 +52,7 @@ $(document).ready(function () {
               <p>Humidity: ${forecastHumidity}%</p>
             </div>
           `);
-      });
+      }
     });
   }
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
       fetchWeather(city);
       updateSearchHistory(city);
     }
-    $("#search-input").val(""); 
+    $("#search-input").val("");
   });
 
   // Event delegation for search history clicks
