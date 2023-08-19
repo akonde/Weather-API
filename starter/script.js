@@ -10,7 +10,7 @@ $(document).ready(function () {
       "&units=metric&appid=" +
       apiKey;
     
-      $("forecast").append("<button>check it</button>")
+      $("forecast").append("<button></button>")
     $.getJSON(apiUrl, function (data) {
       // Update current weather UI
       var currentWeather = data.list[0];
@@ -33,6 +33,7 @@ $(document).ready(function () {
 
       // Update forecast UI
       var forecast = data.list.slice(1, 6);
+      console.log(data.list.slice(1, 6));
       $("#forecast").empty();
       forecast.forEach(function (item) {
         var forecastDate = new Date(item.dt * 1000).toLocaleDateString();

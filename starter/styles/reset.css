@@ -19,14 +19,6 @@ h5{
 
   font-weight: 700;
 }
-
-
-
-/* .custom-jumbotron,
-.custom-card .card-header,
-.custom-card .card-footer,
-.custom-modal .modal-header,
-.custom-modal .modal-footer, */
 .forecast-item {
   background-color: var(--darkblue);
   color: var(--light);
