@@ -1,7 +1,9 @@
 $(document).ready(function () {
   var apiKey = "9e744c7880dfffd38fa92dad98c4424b";
   var searchHistory = [];
-
+  var lat = "44.34";
+  var lon = "10.99";
+  var currentCity;
   // Function to fetch weather data and update UI
   function fetchWeather(city) {
     var apiUrl =
@@ -9,33 +11,18 @@ $(document).ready(function () {
       city +
       "&units=metric&appid=" +
       apiKey;
+    var currentApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
 
-    $("forecast").append("<button></button>");
     $.getJSON(apiUrl, function (data) {
-      // Update current weather UI
-      var currentWeather = data.list[0];
-      var currentCity = data.city.name;
-      var currentDate = new Date(currentWeather.dt * 1000).toLocaleDateString();
-      var currentTemp = currentWeather.main.temp;
-      var currentHumidity = currentWeather.main.humidity;
-      var currentWindSpeed = currentWeather.wind.speed;
-      var iconCode = currentWeather.weather[0].icon;
-      var iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
-
-      $("#today").html(`
-      <div class="today-header">
-          <h2>${currentCity} (${currentDate}) <img src="${iconUrl}" alt="Weather icon"></h2>
-          <p>Temperature: ${currentTemp}°C</p>
-          <p>Wind: ${currentWindSpeed}KPH</p>
-          <p>Humidity: ${currentHumidity}%</p>
-        </div>  
-        `);
-
       // Update forecast UI
-      var forecast = data.list.slice(1, 6);
+      
       $("#forecast").empty();
-      for (let i = 0; i < 35; i += 7) {
+      for (let i = 0; i < 40; i += 8) {
         const item = data.list[i];
+        console.log('5day forecast', data);
+        lat = data.city.coord.lat;
+        lon = data.city.coord.lon
+        currentCity = data.city.name;
         var forecastDate = new Date(item.dt * 1000).toLocaleDateString();
         var forecastTemp = item.main.temp;
         var forcastWind = item.wind.speed;
@@ -52,8 +39,29 @@ $(document).ready(function () {
               <p>Humidity: ${forecastHumidity}%</p>
             </div>
           `);
-      }
+      } return data;
     });
+    $.getJSON(currentApiUrl, function (data) {
+      // Update current weather UI
+      var currentWeather = data;
+      console.log(currentWeather,'current weather');
+      var currentDate = new Date(currentWeather.dt * 1000).toLocaleDateString();
+      var currentTemp = (currentWeather.main.temp - 273.95).toFixed(2);
+      console.log(currentTemp, 'temperature');
+      var currentHumidity = currentWeather.main.humidity;
+      var currentWindSpeed = currentWeather.wind.speed;
+      var iconCode = currentWeather.weather[0].icon;
+      var iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
+
+      $("#today").html(`
+      <div class="today-header">
+           <h2>${currentCity} (${currentDate}) <img src="${iconUrl}" alt="Weather icon"></h2>
+          <p>Temperature: ${currentTemp}°C</p>
+          <p>Wind: ${currentWindSpeed}KPH</p>
+          <p>Humidity: ${currentHumidity}%</p>
+        </div>  
+        `);
+    })
   }
 
   // Function to update search history
