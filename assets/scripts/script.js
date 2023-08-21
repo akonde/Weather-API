@@ -17,9 +17,9 @@ $(document).ready(function () {
       // Update forecast UI
       
       $("#forecast").empty();
-      for (let i = 0; i < 40; i += 8) {
+      for (let i = 4; i < 40; i += 8) {
         const item = data.list[i];
-        console.log('5day forecast', data);
+        console.log(item, 'checking');
         lat = data.city.coord.lat;
         lon = data.city.coord.lon
         currentCity = data.city.name;
@@ -44,10 +44,8 @@ $(document).ready(function () {
     $.getJSON(currentApiUrl, function (data) {
       // Update current weather UI
       var currentWeather = data;
-      console.log(currentWeather,'current weather');
       var currentDate = new Date(currentWeather.dt * 1000).toLocaleDateString();
       var currentTemp = (currentWeather.main.temp -32 * 5 / 9 ).toFixed()
-      console.log(currentTemp, 'temperature');
       var currentHumidity = currentWeather.main.humidity;
       var currentWindSpeed = currentWeather.wind.speed;
       var iconCode = currentWeather.weather[0].icon;
