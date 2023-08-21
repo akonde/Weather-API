@@ -46,7 +46,7 @@ $(document).ready(function () {
       var currentWeather = data;
       console.log(currentWeather,'current weather');
       var currentDate = new Date(currentWeather.dt * 1000).toLocaleDateString();
-      var currentTemp = (currentWeather.main.temp - 273.95).toFixed(2);
+      var currentTemp = (currentWeather.main.temp -32 * 5 / 9 ).toFixed()
       console.log(currentTemp, 'temperature');
       var currentHumidity = currentWeather.main.humidity;
       var currentWindSpeed = currentWeather.wind.speed;
